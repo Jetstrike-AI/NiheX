@@ -71,24 +71,29 @@ def start():
     try:
         check = requests.get("https://google.com")
         conn = Fore.LIGHTGREEN_EX + "Avaliable"
-        try:
-            ip = requests.get('https://api.ipify.org').text
-            try:
-                js_geo = requests.get('http://ipwho.is/' + ip).text
-                pars = json.loads(js_geo)
-                geoloc = {pars["region"]}
-                try:
-                    hostname = socket.gethostname()
-                    local_ip = socket.gethostbyname(hostname)
-                except:
-                    local_ip = Fore.LIGHTRED_EX + "Not avaliable"
-            except:
-                geoloc = Fore.LIGHTRED_EX + "Not avaliable"
-        except:
-            ip = Fore.LIGHTRED_EX + "Not avaliable"
     except:
         conn = Fore.LIGHTRED_EX + "Not avaliable"
+
+    try:
+        ip = requests.get('https://api.ipify.org').text
+    except:
+        ip = Fore.LIGHTRED_EX + "Not avaliable"
+
+    try:
+        js_geo = requests.get('http://ipwho.is/' + ip).text
+        pars = json.loads(js_geo)
+        geoloc = {pars["region"]}
+    except:
+        geoloc = Fore.LIGHTRED_EX + "Not avaliable"
+
+    try:
+        hostname = socket.gethostname()
+        local_ip = socket.gethostbyname(hostname)
+    except:
+        local_ip = Fore.LIGHTRED_EX + "Not avaliable"
+
     check_res = {'internet':conn, 'ip':ip, "geo":geoloc, 'local_ip':local_ip}
+
 
     def console():
         print(Fore.LIGHTGREEN_EX + "                Welcome!",
