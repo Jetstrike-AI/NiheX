@@ -1,10 +1,13 @@
 from colorama import Fore, init
 import json
+import socket
+import os
+import requests
+import platform
 init()
 
 
 def ipinfo():
-    import requests
     ip = input("IP: ")
     try:
         geo = requests.get('http://ipwho.is/' + ip).text
@@ -37,7 +40,7 @@ def auth():
         else:
             print(Fore.LIGHTRED_EX + "Incorrect password to this username!")
             auth()
-    elif username == "harishima":
+    elif username == "dev":
         if passwd == "":
             start()
         else:
@@ -49,10 +52,6 @@ def auth():
 
 
 def start():
-    import socket
-    import os
-    import requests
-    import platform
     mach = platform.system()
     if mach == "Windows":
         os.system("cls")
@@ -96,10 +95,11 @@ def start():
         command = input(">>> ")
         if command == "ipinfo":
             ipinfo()
-        elif command == "exit" or "ex":
+        elif command == "exit":
             os.system("exit")
         else:
             start()
+
     console()
 
 
