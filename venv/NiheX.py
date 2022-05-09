@@ -19,19 +19,10 @@ def ipinfo():
               Fore.LIGHTYELLOW_EX + "\n [Region]: " + Fore.LIGHTGREEN_EX + str(parse['Region']),
               Fore.LIGHTYELLOW_EX + "\n [City]: " + Fore.LIGHTGREEN_EX + str(parse['City'],))
     except:
-        parse = {'IP': ip,
-                 'IP_type':Fore.LIGHTRED_EX + "Not avaliable!",
-                 'Country_INF': Fore.LIGHTRED_EX +"Not avaliable!",
-                 'Region':Fore.LIGHTRED_EX + "Not avaliable!",
-                 'City':Fore.LIGHTRED_EX + "Not avaliable!",
-                 'Success':Fore.LIGHTRED_EX + "False"}
+        parse = {'IP': ip,'Success':Fore.LIGHTRED_EX + "False"}
         print(Fore.LIGHTYELLOW_EX + "IP INFORMATION:",
               Fore.LIGHTYELLOW_EX + "\n [IP]: " + Fore.LIGHTGREEN_EX + str(parse['IP']),
-              Fore.LIGHTYELLOW_EX + "\n [Success]: " + Fore.LIGHTGREEN_EX + str(parse['Success']),
-              Fore.LIGHTYELLOW_EX + "\n [IP type]: " + Fore.LIGHTGREEN_EX + str(parse['IP_type']),
-              Fore.LIGHTYELLOW_EX + "\n [Country]: " + Fore.LIGHTGREEN_EX + str(parse['Country_INF']),
-              Fore.LIGHTYELLOW_EX + "\n [Region]: " + Fore.LIGHTGREEN_EX + str(parse['Region']),
-              Fore.LIGHTYELLOW_EX + "\n [City]: " + Fore.LIGHTGREEN_EX + str(parse['City'], ))
+              Fore.LIGHTYELLOW_EX + "\n [Success]: " + Fore.LIGHTGREEN_EX + str(parse['Success']))
     input()
     start()
 
