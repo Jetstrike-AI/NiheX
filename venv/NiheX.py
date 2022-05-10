@@ -174,11 +174,16 @@ def start():
     except:
         local_ip = Fore.LIGHTRED_EX + "Not avaliable"
 
+    if mach == "Windows":
+        mach1 = "Windows"
+    else:
+        mach1 = Fore.LIGHTRED_EX + mach
+
     check_res = {'internet': conn, 'ip': ip, "geo": pars['region'], 'local_ip': socket.gethostbyname(hostname)}
     print(Fore.LIGHTGREEN_EX + "                Welcome!",
           Fore.LIGHTYELLOW_EX + "\n [Internet]: " + Fore.LIGHTGREEN_EX + check_res['internet'],
           Fore.LIGHTYELLOW_EX + "\n [Public IP]: " + Fore.LIGHTGREEN_EX + check_res['ip'],
-          Fore.LIGHTYELLOW_EX + "\n [System]: " + Fore.LIGHTGREEN_EX + mach,
+          Fore.LIGHTYELLOW_EX + "\n [System]: " + Fore.LIGHTGREEN_EX + mach1,
           Fore.LIGHTYELLOW_EX + "\n [GEO]: " + Fore.LIGHTGREEN_EX + str(check_res['geo']),
           Fore.LIGHTYELLOW_EX + "\n [Local IP]: " + Fore.LIGHTGREEN_EX + check_res['local_ip'])
     console()
