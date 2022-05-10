@@ -1,57 +1,96 @@
 from colorama import Fore, init
-import json
-import socket
-import os
-import requests
-import platform
 init()
 
 
+def help():
+    print(Fore.LIGHTYELLOW_EX + "                    HELP PAGE:",
+          Fore.LIGHTGREEN_EX + "\n [netinfo] - showing information of your local network;",
+          "\n [ipinfo] - showing info of inputed IP {IF INPUT '0', SHOW INFORAMION OF YOUR IP};",
+          "\n [cl] - clearing terminal;",
+          "\n [reload] - reloading NiheX;",
+          "\n [exit] - exit to terminal.")
+    input()
+    console()
+
+
+def net_info():
+    import socket
+    import netifaces
+    import speedtest
+    hostname = socket.gethostname()
+    gws = netifaces.gateways()
+    print(Fore.LIGHTYELLOW_EX + " [OS]: " + Fore.LIGHTGREEN_EX + "CONNECTING TO SPEEDTEST.COM!")
+    print(Fore.LIGHTYELLOW_EX + " [OS]: " + Fore.LIGHTGREEN_EX + "PLEASE WAIT!")
+    s = speedtest.Speedtest()
+    w = s.download()
+    u = s.upload()
+    res = {"ping": s.results.dict()["ping"]}
+    import os
+    import platform
+    mach = platform.system()
+    if mach == "Windows":
+        os.system("cls")
+    else:
+        os.system("clear")
+    def humansize(nbytes):
+        suffixes = ['B', 'KB', 'MB', 'GB', 'TB', 'PB']
+        i = 0
+        while nbytes >= 1024 and i < len(suffixes) - 1:
+            nbytes /= 1024.
+            i += 1
+        f = ('%.2f' % nbytes).rstrip('0').rstrip('.')
+        return '%s %s' % (f, suffixes[i])
+
+    info = {'Local_IP':socket.gethostbyname(hostname), 'Gateway_IP':gws['default'][netifaces.AF_INET][0],
+            'Download': humansize(w), 'Upload': humansize(u), 'Ping':res['ping']}
+    print(Fore.LIGHTYELLOW_EX + "                LOCAL NET INFO:",
+          "\n" + Fore.LIGHTYELLOW_EX + " [LOCAL IP]: " + Fore.LIGHTGREEN_EX + info['Local_IP'],
+          "\n" + Fore.LIGHTYELLOW_EX + " [GATEWAY IP]: " + Fore.LIGHTGREEN_EX + info['Gateway_IP'],
+          "\n" + Fore.LIGHTYELLOW_EX + " [DOWNLOAD SPEED]: " + Fore.LIGHTGREEN_EX + info['Download'],
+          "\n" + Fore.LIGHTYELLOW_EX + " [UPLOAD SPEED]: " + Fore.LIGHTGREEN_EX + info['Upload'],
+          "\n" + Fore.LIGHTYELLOW_EX + " [AVERAGE PING]: " + Fore.LIGHTGREEN_EX + str(info['Ping']) + " ms")
+    input()
+    console()
+
+
 def ipinfo():
+    import platform
+    import os
+    import requests
+    import json
     ip = input("IP: ")
+    mach = platform.system()
+    if mach == "Windows":
+        os.system("cls")
+    else:
+        os.system("clear")
     try:
         geo = requests.get('http://ipwho.is/' + ip).text
-        d = json.loads(geo)
-        parse = {'IP':d["ip"], 'IP_type':d["type"], 'Country_INF':d['country'], 'Region':d['region'],
-                 'City':d['city'], 'Success':d['success']}
-        print(Fore.LIGHTYELLOW_EX + "IP INFORMATION:",
+        parse = {'IP':json.loads(geo)["ip"], 'IP_type':json.loads(geo)["type"],
+                 'Country_INF':json.loads(geo)['country'], 'Region':json.loads(geo)['region'],
+                 'City':json.loads(geo)['city'], 'Success':json.loads(geo)['success']}
+        print(Fore.LIGHTYELLOW_EX + "                IP INFORMATION:",
               Fore.LIGHTYELLOW_EX + "\n [IP]: " + Fore.LIGHTGREEN_EX + str(parse['IP']),
               Fore.LIGHTYELLOW_EX + "\n [Success]: " + Fore.LIGHTGREEN_EX + str(parse['Success']),
               Fore.LIGHTYELLOW_EX + "\n [IP type]: " + Fore.LIGHTGREEN_EX + str(parse['IP_type']),
               Fore.LIGHTYELLOW_EX + "\n [Country]: " + Fore.LIGHTGREEN_EX + str(parse['Country_INF']),
               Fore.LIGHTYELLOW_EX + "\n [Region]: " + Fore.LIGHTGREEN_EX + str(parse['Region']),
-              Fore.LIGHTYELLOW_EX + "\n [City]: " + Fore.LIGHTGREEN_EX + str(parse['City'],))
+               Fore.LIGHTYELLOW_EX + "\n [City]: " + Fore.LIGHTGREEN_EX + str(parse['City']))
     except:
         parse = {'IP': ip,'Success':Fore.LIGHTRED_EX + "False"}
-        print(Fore.LIGHTYELLOW_EX + "IP INFORMATION:",
-              Fore.LIGHTYELLOW_EX + "\n [IP]: " + Fore.LIGHTGREEN_EX + str(parse['IP']),
-              Fore.LIGHTYELLOW_EX + "\n [Success]: " + Fore.LIGHTGREEN_EX + str(parse['Success']))
+        print(Fore.LIGHTYELLOW_EX + "                IP INFORMATION:",
+            Fore.LIGHTYELLOW_EX + "\n [IP]: " + Fore.LIGHTGREEN_EX + str(parse['IP']),
+            Fore.LIGHTYELLOW_EX + "\n [Success]: " + Fore.LIGHTGREEN_EX + str(parse['Success']))
     input()
-    start()
-
-
-def auth():
-    print(Fore.LIGHTGREEN_EX + "Sign in your account:")
-    username = input("Username: ")
-    passwd = input("Passwd: ")
-    if username == "Kepheer":
-        if passwd == "14031548":
-            start()
-        else:
-            print(Fore.LIGHTRED_EX + "Incorrect password to this username!")
-            auth()
-    elif username == "dev":
-        if passwd == "":
-            start()
-        else:
-            print(Fore.LIGHTRED_EX + "Incorrect password to this username!")
-            auth()
-    else:
-        print(Fore.LIGHTRED_EX + "Incorrect username!")
-        auth()
+    console()
 
 
 def start():
+    import requests
+    import os
+    import platform
+    import json
+    import socket
     mach = platform.system()
     if mach == "Windows":
         os.system("cls")
@@ -59,7 +98,7 @@ def start():
         os.system("clear")
 
     try:
-        check = requests.get("https://google.com")
+        requests.get("https://google.com")
         conn = Fore.LIGHTGREEN_EX + "Avaliable"
     except:
         conn = Fore.LIGHTRED_EX + "Not avaliable"
@@ -72,35 +111,48 @@ def start():
     try:
         js_geo = requests.get('http://ipwho.is/' + ip).text
         pars = json.loads(js_geo)
-        geoloc = {pars["region"]}
     except:
         geoloc = Fore.LIGHTRED_EX + "Not avaliable"
 
     try:
         hostname = socket.gethostname()
-        local_ip = socket.gethostbyname(hostname)
     except:
         local_ip = Fore.LIGHTRED_EX + "Not avaliable"
 
-    check_res = {'internet':conn, 'ip':ip, "geo":geoloc, 'local_ip':local_ip}
-
-
-    def console():
-        print(Fore.LIGHTGREEN_EX + "                Welcome!",
-            Fore.LIGHTYELLOW_EX + "\n [Internet]: " + Fore.LIGHTGREEN_EX + check_res['internet'],
-            Fore.LIGHTYELLOW_EX + "\n [Public IP]: " + Fore.LIGHTGREEN_EX + check_res['ip'],
-            Fore.LIGHTYELLOW_EX + "\n [System]: " + Fore.LIGHTGREEN_EX + mach,
-            Fore.LIGHTYELLOW_EX + "\n [GEO]: " + Fore.LIGHTGREEN_EX + str(check_res['geo']),
-            Fore.LIGHTYELLOW_EX + "\n [Local IP]: " + Fore.LIGHTGREEN_EX + check_res['local_ip'])
-        command = input(">>> ")
-        if command == "ipinfo":
-            ipinfo()
-        elif command == "exit":
-            os.system("exit")
-        else:
-            start()
-
+    check_res = {'internet': conn, 'ip': ip, "geo": pars['region'], 'local_ip': socket.gethostbyname(hostname)}
+    print(Fore.LIGHTGREEN_EX + "                Welcome!",
+          Fore.LIGHTYELLOW_EX + "\n [Internet]: " + Fore.LIGHTGREEN_EX + check_res['internet'],
+          Fore.LIGHTYELLOW_EX + "\n [Public IP]: " + Fore.LIGHTGREEN_EX + check_res['ip'],
+          Fore.LIGHTYELLOW_EX + "\n [System]: " + Fore.LIGHTGREEN_EX + mach,
+          Fore.LIGHTYELLOW_EX + "\n [GEO]: " + Fore.LIGHTGREEN_EX + str(check_res['geo']),
+          Fore.LIGHTYELLOW_EX + "\n [Local IP]: " + Fore.LIGHTGREEN_EX + check_res['local_ip'])
     console()
 
 
-auth()
+def console():
+    command = input(">>> ")
+    if command == "ipinfo":
+        ipinfo()
+    elif command == "netinfo":
+        net_info()
+    elif command == "exit":
+        import os
+        os.system("exit")
+    elif command == "cl":
+        import platform
+        import os
+        mach = platform.system()
+        if mach == "Windows":
+            os.system("cls")
+        else:
+            os.system("clear")
+        console()
+    elif command == "help":
+        help()
+    elif command == "reload":
+        start()
+    else:
+        console()
+
+
+start()
