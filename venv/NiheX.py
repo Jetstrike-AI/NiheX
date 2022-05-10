@@ -148,12 +148,10 @@ def start():
         os.system("cls")
     else:
         print(Fore.LIGHTRED_EX + "                WARNING!"
-                         "\n NiheX isn supporting Termux or Linux!")
+                         "\n NiheX isn't supporting Termux or Linux!")
         sign = input("Ignore(y/n): ")
         if sign == "y":
             os.system("clear")
-        elif sign == "n":
-            os.system("exit")
         else:
             os.system("exit")
 
