@@ -177,7 +177,7 @@ def start():
     if mach == "Windows":
         mach1 = "Windows"
     else:
-        mach1 = Fore.LIGHTRED_EX + mach
+        mach1 = Fore.LIGHTRED_EX + mach + "(Not supporting)"
 
     check_res = {'internet': conn, 'ip': ip, "geo": pars['region'], 'local_ip': socket.gethostbyname(hostname)}
     print(Fore.LIGHTGREEN_EX + "                Welcome!",
