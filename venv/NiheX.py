@@ -2,10 +2,62 @@ from colorama import Fore, init
 init()
 
 
+def net_scan():
+    import os
+    import platform
+    import threading
+    import socket
+    mach = platform.system()
+    if mach == "Windows":
+        os.system("cls")
+    else:
+        os.system("clear")
+    def getMyIp():
+        s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+        s.setsockopt(socket.SOL_SOCKET, socket.SO_BROADCAST, 1)
+        s.connect(('<broadcast>', 0))
+        return s.getsockname()[0]
+
+    def scan_Ip(ip):
+        addr = net + str(ip)
+        comm = ping_com + addr
+        response = os.popen(comm)
+        data = response.readlines()
+        for line in data:
+            if 'TTL' in line:
+                print(Fore.LIGHTYELLOW_EX + " [SCANER]:" + Fore.LIGHTGREEN_EX + addr + "--> avaliable")
+                break
+
+    net = getMyIp()
+    net_split = net.split('.')
+    a = '.'
+    net = net_split[0] + a + net_split[1] + a + net_split[2] + a
+
+    oc = platform.system()
+    if oc == "Windows":
+        ping_com = "ping -n 1 "
+    else:
+        ping_com = "ping -c 1 "
+
+    print(Fore.LIGHTYELLOW_EX + "                Scanning local network:")
+
+    for ip in range(1, 100):
+        if ip == int(net_split[3]):
+            continue
+        potoc = threading.Thread(target=scan_Ip, args=[ip])
+        potoc.start()
+    potoc.join()
+    print(Fore.LIGHTYELLOW_EX + " [OS]:" + Fore.LIGHTGREEN_EX + " Succesful finished!")
+    input()
+    console()
+
+
+
 def help():
     print(Fore.LIGHTYELLOW_EX + "                    HELP PAGE:",
           Fore.LIGHTGREEN_EX + "\n [netinfo] - showing information of your local network;",
           "\n [ipinfo] - showing info of inputed IP {IF INPUT '0', SHOW INFORAMION OF YOUR IP};",
+          "\n [netscan] - scaning local network on avaliable devices;"
           "\n [cl] - clearing terminal;",
           "\n [reload] - reloading NiheX;",
           "\n [exit] - exit to terminal.")
@@ -151,8 +203,9 @@ def console():
         help()
     elif command == "reload":
         start()
+    elif command == "netscan":
+        net_scan()
     else:
         console()
-
 
 start()
