@@ -147,7 +147,15 @@ def start():
     if mach == "Windows":
         os.system("cls")
     else:
-        os.system("clear")
+        print(Fore.LIGHTRED_EX + "                WARNING!"
+                         "\n NiheX isn supporting Termux or Linux!")
+        sign = input("Ignore(y/n): ")
+        if sign == "y":
+            os.system("clear")
+        elif sign == "n":
+            os.system("exit")
+        else:
+            os.system("exit")
 
     try:
         requests.get("https://google.com")
