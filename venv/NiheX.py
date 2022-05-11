@@ -2,6 +2,26 @@ from colorama import Fore, init
 init()
 
 
+def sys_info():
+    import platform
+    import os
+    mach = platform.system()
+    if mach == "Windows":
+        os.system("cls")
+    else:
+        os.system("clear")
+    all_info = {"Platform":platform.platform(), "Machine":platform.machine(), "Processor":platform.processor(),
+                "Node":platform.node(), "Arch":platform.architecture()}
+    print(Fore.LIGHTYELLOW_EX + "                System information:",
+          Fore.LIGHTYELLOW_EX + "\n [Platform]: " + Fore.LIGHTGREEN_EX + all_info["Platform"],
+          Fore.LIGHTYELLOW_EX + "\n [Machine]: " + Fore.LIGHTGREEN_EX + all_info["Machine"],
+          Fore.LIGHTYELLOW_EX + "\n [Processor]: " + Fore.LIGHTGREEN_EX + all_info["Processor"],
+          Fore.LIGHTYELLOW_EX + "\n [User]: " + Fore.LIGHTGREEN_EX + all_info["Node"],
+          Fore.LIGHTYELLOW_EX + "\n [Arch]: " + Fore.LIGHTGREEN_EX + str(all_info["Arch"]))
+    input()
+    console()
+
+
 def net_scan():
     import os
     import platform
@@ -57,7 +77,8 @@ def help():
     print(Fore.LIGHTYELLOW_EX + "                    HELP PAGE:",
           Fore.LIGHTGREEN_EX + "\n [netinfo] - showing information of your local network;",
           "\n [ipinfo] - showing info of inputed IP {IF INPUT '0', SHOW INFORAMION OF YOUR IP};",
-          "\n [netscan] - scaning local network on avaliable devices;"
+          "\n [netscan] - scaning local network on avaliable devices;",
+          "\n [sysinfo] - showing low system information;"
           "\n [cl] - clearing terminal;",
           "\n [reload] - reloading NiheX;",
           "\n [exit] - exit to terminal.")
@@ -213,6 +234,8 @@ def console():
         start()
     elif command == "netscan":
         net_scan()
+    elif command == "sysinfo":
+        sys_info()
     else:
         console()
 
