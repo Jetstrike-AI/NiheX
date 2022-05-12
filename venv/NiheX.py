@@ -94,10 +94,9 @@ def net_info():
     gws = netifaces.gateways()
     print(Fore.LIGHTYELLOW_EX + " [OS]: " + Fore.LIGHTGREEN_EX + "CONNECTING TO SPEEDTEST.COM!")
     print(Fore.LIGHTYELLOW_EX + " [OS]: " + Fore.LIGHTGREEN_EX + "PLEASE WAIT!")
-    s = speedtest.Speedtest()
-    w = s.download()
-    u = s.upload()
-    res = {"ping": s.results.dict()["ping"]}
+    main = speedtest.Speedtest()
+    download = main.download()
+    upload = main.upload()
     import os
     import platform
     mach = platform.system()
@@ -105,7 +104,7 @@ def net_info():
         os.system("cls")
     else:
         os.system("clear")
-    def humansize(nbytes):
+    def convert(nbytes):
         suffixes = ['B', 'KB', 'MB', 'GB', 'TB', 'PB']
         i = 0
         while nbytes >= 1024 and i < len(suffixes) - 1:
@@ -115,10 +114,12 @@ def net_info():
         return '%s %s' % (f, suffixes[i])
 
     info = {'Local_IP':socket.gethostbyname(hostname), 'Gateway_IP':gws['default'][netifaces.AF_INET][0],
-            'Download': humansize(w), 'Upload': humansize(u), 'Ping':res['ping']}
+            'Download': convert(download), 'Upload': convert(upload), 'Ping':main.results.dict()["ping"],
+            'ISP':main.results.dict()["client"]["isp"]}
     print(Fore.LIGHTYELLOW_EX + "                LOCAL NET INFO:",
           "\n" + Fore.LIGHTYELLOW_EX + " [LOCAL IP]: " + Fore.LIGHTGREEN_EX + info['Local_IP'],
           "\n" + Fore.LIGHTYELLOW_EX + " [GATEWAY IP]: " + Fore.LIGHTGREEN_EX + info['Gateway_IP'],
+          "\n" + Fore.LIGHTYELLOW_EX + " [ISP]: " + Fore.LIGHTGREEN_EX + info['ISP'],
           "\n" + Fore.LIGHTYELLOW_EX + " [DOWNLOAD SPEED]: " + Fore.LIGHTGREEN_EX + info['Download'],
           "\n" + Fore.LIGHTYELLOW_EX + " [UPLOAD SPEED]: " + Fore.LIGHTGREEN_EX + info['Upload'],
           "\n" + Fore.LIGHTYELLOW_EX + " [AVERAGE PING]: " + Fore.LIGHTGREEN_EX + str(info['Ping']) + " ms")
